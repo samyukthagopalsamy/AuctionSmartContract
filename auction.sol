@@ -14,12 +14,16 @@ contract BiddingContract
     uint public endauction;
     
     Bid[] AllBids;
-    
+    /*There can only be at most one constructor in a contract*/
     constructor() public 
     {
         AllBids.push(Bid(address(0), 0));
         owner=msg.sender;
     }
+    /*
+    modifier has the capability to change the behaviour of a function with
+    which it is associated.
+    */
     
     modifier onlyOwner()
     {
@@ -62,11 +66,13 @@ contract BiddingContract
                owner.transfer(msg.value );// After the auction ends the highest bid is transferred to the owner
            }
     }
+    /*The modifier 'onlyOwner' automatically checks the condition before executing the 'balance' function*/
     function balance() public view onlyOwner returns (uint) // only the owner can see the balance amount in the contract.
     {
         //require(manager == msg.sender,"Only the manager can call balance");
         return owner.balance;
     }
+    
     function getTopBid() public view  returns (address, uint)// the last index of AllBids holds the highest bidder's details
     {
         uint lastIndex = AllBids.length - 1;
